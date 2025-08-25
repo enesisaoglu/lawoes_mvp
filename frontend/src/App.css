@@ -1,0 +1,157 @@
+/* --- GENEL STİLLER VE FONT --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- TEMA (AÇIK/KOYU MOD) DEĞİŞKENLERİ --- */
+:root {
+  --bg-color: #ffffff;
+  --sidebar-bg: #f9fafb;
+  --panel-bg: #f9fafb;
+  --text-color: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --accent-color: #4f46e5;
+  --active-bg: #f3f4f6;
+  --chat-bubble-user-bg: #f3f4f6;
+  --chat-bubble-ai-bg: #ffffff;
+  --scrollbar-thumb: #d1d5db;
+  --scrollbar-track: transparent;
+  --logo-bg: #000000;
+  --logo-fg: #ffffff;
+}
+[data-theme="dark"] {
+  --bg-color: #111827;
+  --sidebar-bg: #1f2937;
+  --panel-bg: #1f2937;
+  --text-color: #f9fafb;
+  --text-secondary: #9ca3af;
+  --border-color: #374151;
+  --accent-color: #6366f1;
+  --active-bg: #374151;
+  --chat-bubble-user-bg: #374151;
+  --chat-bubble-ai-bg: rgba(255, 255, 255, 0.08);
+  --scrollbar-thumb: #4b5563;
+  --scrollbar-track: transparent;
+  --logo-bg: #ffffff;
+  --logo-fg: #000000;
+}
+
+/* --- TEMEL SAYFA YAPISI --- */
+html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Inter', sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
+.app-container { display: flex; height: 100vh; width: 100vw; }
+
+/* --- KİŞİSELLEŞTİRİLMİŞ SCROLLBAR --- */
+.chat-area, .history-list { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb); border-radius: 10px; border: 3px solid transparent; background-clip: content-box; }
+
+/* --- SOL SIDEBAR --- */
+.sidebar { width: 260px; background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 1.5rem; box-sizing: border-box; flex-shrink: 0; transition: background-color 0.3s ease; }
+.sidebar-header .logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+.logo h1 { font-size: 1.5rem; margin: 0; font-weight: 600; }
+.search-bar { position: relative; margin-bottom: 1.5rem; }
+.search-bar input { width: 100%; padding: 0.5rem 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-color); box-sizing: border-box; color: var(--text-color); }
+.search-bar .shortcut { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.75rem; color: var(--text-secondary); }
+.main-nav ul { list-style: none; padding: 0; margin: 0; }
+.main-nav li { padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 0.25rem; cursor: pointer; display: flex; align-items: center; gap: 0.75rem; font-weight: 500; }
+.main-nav li.active { background-color: var(--active-bg); color: var(--text-color); }
+.new-badge { font-size: 0.7rem; background-color: var(--accent-color); color: white; padding: 2px 6px; border-radius: 12px; margin-left: auto; }
+.plus-icon { margin-left: auto; border: 1px solid var(--border-color); border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; }
+.sidebar-footer { margin-top: auto; }
+.theme-switcher { display: flex; background-color: var(--active-bg); border-radius: 8px; padding: 4px; margin-bottom: 1rem; }
+.theme-btn { flex: 1; padding: 0.5rem; border: none; border-radius: 6px; cursor: pointer; background-color: transparent; color: var(--text-secondary); font-weight: 500; }
+.theme-btn.active { background-color: var(--bg-color); color: var(--text-color); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.user-profile { display: flex; align-items: center; gap: 0.75rem; }
+.user-profile img { width: 40px; height: 40px; border-radius: 50%; }
+.user-info { display: flex; flex-direction: column; }
+.user-name { font-weight: 600; }
+.user-email { font-size: 0.875rem; color: var(--text-secondary); }
+
+/* --- ANA İÇERİK (ORTA PANEL) --- */
+.main-content { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
+.main-header { width: 100%; padding-bottom: 1rem; }
+.main-header h2 { margin: 0; }
+.chat-area { flex-grow: 1; overflow-y: auto; padding: 1rem; width: 100%; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; }
+.empty-chat-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; color: var(--text-secondary); }
+.empty-chat-container .large-logo { width: 60px; height: 60px; margin-bottom: 1rem; }
+.empty-chat-container h1 { font-size: 2rem; color: var(--text-color); margin: 0 0 0.5rem 0; }
+.empty-chat-container p { font-size: 1rem; margin: 0; }
+
+/* --- SOHBET MESAJLARI VE BALONLAR --- */
+.chat-message-group { display: flex; flex-direction: column; max-width: 80%; margin-bottom: 10px; }
+.chat-message-group.user { align-self: flex-end; align-items: flex-end; }
+.chat-message-group.ai { align-self: flex-start; align-items: flex-start; }
+.chat-message-group + .chat-message-group { margin-top: 10px; }
+.chat-bubble { margin-bottom: 0; padding: 12px 18px; border-radius: 18px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; color: var(--text-color); max-width: 100%; background-color: var(--chat-bubble-user-bg); }
+.chat-message-group.ai .chat-bubble { background-color: var(--chat-bubble-ai-bg); border-bottom-left-radius: 4px; border: 1px solid var(--border-color); }
+.chat-message-group.user .chat-bubble { border-bottom-right-radius: 4px; }
+[data-theme="dark"] .chat-message-group.ai .chat-bubble { border: 1px solid rgba(255, 255, 255, 0.1); }
+.file-bubble + .chat-bubble { margin-top: 8px; }
+
+.file-bubble { display: flex; align-items: center; gap: 12px; background-color: var(--chat-bubble-user-bg); padding: 10px; border-radius: 12px; min-width: 250px; border: 1px solid var(--border-color); }
+[data-theme="dark"] .file-bubble { background-color: #374151; }
+.file-bubble-icon-wrapper { background-color: #ef4444; color: white; border-radius: 8px; padding: 8px; display: flex; align-items: center; justify-content: center; }
+.file-bubble-icon { width: 24px; height: 24px; }
+.file-bubble-info { display: flex; flex-direction: column; }
+.file-bubble-name { font-weight: 500; color: var(--text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+.file-bubble-type { font-size: 0.8rem; color: var(--text-secondary); }
+
+/* --- METİN GİRİŞ ALANI (INPUT) --- */
+.chat-input-area { padding-top: 1rem; width: 100%; max-width: 800px; margin: 0 auto; }
+.staged-file-preview { display: flex; align-items: center; justify-content: space-between; background-color: var(--active-bg); padding: 8px 12px; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--border-color); animation: slide-in 0.3s ease-out; }
+.staged-file-info { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 500; }
+.staged-file-info .file-bubble-icon { width: 18px; height: 18px; color: var(--accent-color); }
+.remove-file-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 1.5rem; line-height: 1; padding: 0 4px; }
+@keyframes slide-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.chat-input-wrapper { display: flex; align-items: flex-end; gap: 0.75rem; }
+.attach-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.attach-btn:hover {
+  background-color: var(--active-bg);
+  color: var(--text-color);
+}
+
+.attach-btn svg {
+  width: 22px;  /* İkonun genişliği */
+  height: 22px; /* İkonun yüksekliği */
+  color: currentColor; /* Rengin butondan miras alınmasını sağlar */
+}
+.chat-form { flex-grow: 1; border: 1px solid var(--border-color); border-radius: 12px; padding: 0.5rem 0.5rem 0.5rem 1rem; background-color: var(--bg-color); display: flex; align-items: center; gap: 8px; }
+.chat-form textarea { flex: 1; width: 100%; border: none; background: transparent; resize: none; font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; min-height: 24px; max-height: 200px; color: var(--text-color); }
+.send-btn { background-color: var(--text-color) !important; color: var(--bg-color) !important; border: none; border-radius: 8px !important; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; }
+.send-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+.disclaimer { width: 100%; max-width: 800px; margin: 1rem auto 0 auto; text-align: center; font-size: 0.75rem; color: var(--text-secondary); }
+
+/* --- SAĞ PANEL (HISTORY) --- */
+.history-panel { width: 320px; background-color: var(--panel-bg); border-left: 1px solid var(--border-color); padding: 1.5rem; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; transition: background-color 0.3s ease; }
+.history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.history-header h3 { margin: 0; }
+.icon-btn { background: none; border: none; cursor: pointer; font-size: 1.25rem; color: var(--text-secondary); }
+.history-list { overflow-y: auto; flex-grow: 1; }
+.history-item { padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem; border: 1px solid var(--border-color); background-color: var(--bg-color); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background-color 0.2s, border-color 0.2s; }
+.history-item:hover { background-color: var(--active-bg); }
+.history-item.active { border-color: var(--accent-color); background-color: #eef2ff; }
+[data-theme="dark"] .history-item.active { background-color: #3730a3; }
+.history-item.new-project { background-color: transparent; text-align: center; font-weight: 600; }
+.history-item.new-project:hover { background-color: var(--active-bg); }
+.history-item p { margin: 0; font-size: 0.875rem; font-weight: 500; }
+
+/* --- YÜKLENİYOR ANİMASYONU --- */
+.loading-dots span { animation: blink 1.4s infinite both; font-size: 1.5rem; font-weight: bold; }
+.loading-dots span:nth-of-type(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-of-type(3) { animation-delay: 0.4s; }
+@keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
